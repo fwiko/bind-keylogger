@@ -7,8 +7,8 @@ Makes a connection to the server and sends keylogger data over the socket connec
 
 message displayed on server when a client makes a connection
 ```
-Server:> 
-[NEW] > Connection from 127.0.0.1:1069
+bind-logger:> 
+[CONNECTION] > Connection from 127.0.0.1:1069
 ```
 
 #
@@ -18,22 +18,27 @@ Listens for connections from clients and receives keylogger data which can then 
 
 help command - displays the list of available commands
 ```
-Server:> help
-          sessions | List all active sessions.
- logs <session_id> | Display the logs of specified session.
- save <session_id> | Save the logs of specified session to a file    
-              help | Display this list.
-              exit | Shutdown listener server and close all sessions.
+bind-logger:> help
+
+               sessions | List all active sessions.
+      logs <session_id> | Display the logs of specified session.
+      save <session_id> | Save the logs of specified session to a file.    
+                   help | Display this list.
+                options | Display a list of variable options.
+ set <variable> <value> | Change the value of one of the available options.
+                    run | Run the keylogger connection listener
+                   kill | Stop a specified session/client connection.      
+                   exit | Shutdown listener server and close all sessions. 
 ```
 sessions command - session_id | client_address:client_port | log_length
 ```
-Server:> sessions
+bind-logger:> sessions
  1 | 127.0.0.1:8464 | 10
  2 | 127.0.0.1:9283 | 152
 ```
 logs command - displays the logs of specified session
 ```
-Server:> logs 1
+bind-logger:> logs 1
 
 Keyboard logs from - Session 1 (127.0.0.1:8464)
 --------------------------------
@@ -42,12 +47,12 @@ hello awpiudhbaw9dghaw-09d87gbaw-uda
 ```
 save command - saves the logs of specified session to a file
 ```
-Server:> save 1
+bind-logger:> save 1
 [SUCCESS] > Logs written to file log-127.0.0.1_08-24-2021_15-31-11.txt
 ```
 exit command - closes the listener server
 ```
-Server:> exit
+bind-logger:> exit
 [EXIT] > Server Stopped
 ```
 #
