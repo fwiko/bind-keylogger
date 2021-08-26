@@ -29,7 +29,7 @@ class ClientSession():
     def kill(self):
         self.alive = False
         self.session.close()
-        session_manager.dead(self)
+        self.controller.sessions.remove(self)
 
 
 class SessionManager:
@@ -89,9 +89,6 @@ class SessionManager:
         else:
             interface.message("SUCCESS", f"Saved log for session #{session.session_id} as {file_name}", colour=Fore.GREEN)
             return True
-
-    def dead(self, session):
-        self.sessions.remove(session)
 
 
 class ListenerServer:
