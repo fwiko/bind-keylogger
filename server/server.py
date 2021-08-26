@@ -204,7 +204,7 @@ class UserInterface:
                     self.message(0, "Session ID must be a number.")
 
         elif command == "exit":
-            raise sys.exit("System Exit")
+            raise sys.exit(interface.message(0, "Server Stopped", "EXIT"))
 
     def start(self):
         while True:
