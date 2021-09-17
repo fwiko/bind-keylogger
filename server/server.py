@@ -95,7 +95,6 @@ class ListenerServer:
     def __init__(self, address, port):
         self.address = address
         self.port = port
-        # self.stopped = False - eventually add feature to stop and start listener without restarting script
 
     def connection_gateway(self, listener_socket):
         interface.message("LISTENER", "Listening on {}:{}".format(*listener_socket.getsockname()), colour=Fore.GREEN, line_break=True)
