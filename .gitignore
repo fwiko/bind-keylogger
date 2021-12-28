@@ -1,2 +1,5 @@
-/server/logs
+
 /.vscode
+env
+logs
+__pycache__

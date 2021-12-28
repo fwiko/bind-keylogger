@@ -93,3 +93,5 @@ bind-logger:> exit
 [EXIT] > Stopped.
 
 ```
+
+##  **THIS REPOSITORY IS PURELY FOR DEMONSTRATION/EDUCATIONAL PURPOSES**

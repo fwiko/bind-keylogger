@@ -1,0 +1,1 @@
+start env/Scripts/python.exe new_client.py
