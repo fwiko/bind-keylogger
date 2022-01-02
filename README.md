@@ -8,7 +8,7 @@ Makes a connection to the server and sends keylogger data over the socket connec
 
 To run the client without building an executeable the `start.bat` script can be used. This will require a virtual environment to be created and all necessary dependencies installed.
 
-*To set up the client to run on systems that may not have python installed*
+*A virtual environment can also be used to run the client to run on systems that may not have python installed*
 
 #### 1. Setup and activate virtual environment
 ```console
