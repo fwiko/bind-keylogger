@@ -1,5 +1,5 @@
 # Bind Keylogger
-### Connection handler that accepts connections and data from a client and then handles whatever data is sent over the connection allowing the user to view/interact with said data.
+### A simple keylogger application utilising socket connections within python to send keylog data retreived from clients to a centralised server.
 
 #### The server side has been stripped down with the CLI being removed, requiring less interaction.
 
@@ -8,9 +8,15 @@ Makes a connection to the server and sends keylogger data over the socket connec
 
 To run the client without building an executeable the `start.bat` script can be used. This will require a virtual environment to be created and all necessary dependencies installed.
 
+*To set up the client to run on systems that may not have python installed*
+
+#### 1. Setup and activate virtual environment
 ```console
 python -m venv env
 ./env/Scripts/activate
+```
+#### 2. Install the required packages within the virtual environment
+```console
 pip install -r requirements.txt
 ```
 
