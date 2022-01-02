@@ -1,6 +1,7 @@
 # Bind Keylogger
-### 🖥️ Connection handler that accepts connections and data from a client and then handles whatever data is sent over the connection allowing the user to view/interact with said data.
+### Connection handler that accepts connections and data from a client and then handles whatever data is sent over the connection allowing the user to view/interact with said data.
 
+#### The server side has been stripped down with the CLI being removed, requiring less interaction.
 
 ## **Client**
 Makes a connection to the server and sends keylogger data over the socket connection when a key is pressed. 
