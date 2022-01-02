@@ -26,14 +26,14 @@ To build an executeable the `build.bat` script can be used. The required depende
 The server provides the interface the "attacker" will use to receive keylogging data. Clients will make a connection to this server on the IP and Port specified when the listener is started.
 
 
-### ***Hosting the server using Docker***
+### ***Running the server within Docker***
 
-Build the Docker image
+#### 1. Build the Docker image
 ```console
 docker build -t keylogger-server .
 ```
 
-Creating and running the Docker container
+#### 2. Creating and running the Docker container
 ```console
 docker run -d -v "$PWD":/usr/src/app --name <name> keylogger-server:latest
 ```
