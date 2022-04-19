@@ -48,4 +48,3 @@ docker build -t keylogger-server .
 docker run -d -v "$PWD":/usr/src/app -p <hostPort>:<containerPort> --name <name> keylogger-server:latest
 ```
 
-## **THIS REPOSITORY EXISTS PURELY FOR DEMONSTRATION/EDUCATIONAL PURPOSES 🙂**
