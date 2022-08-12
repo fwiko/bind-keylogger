@@ -1,6 +1,6 @@
 # Bind Keylogger
 
-### A simple keylogger application utilising socket connections within python to send keylog data retreived from clients to a centralised server.
+A simple keylogger application utilising socket connections within python to send keylog data retreived from clients to a centralised server. Code from this project has been used in a university project of mine in which i implemented a remote-access tool with additional features.
 
 #### The server side has been stripped down with the CLI being removed, requiring less interaction.
 
