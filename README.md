@@ -2,8 +2,6 @@
 
 A simple keylogger application utilising socket connections within python to send keylog data retreived from clients to a centralised server. Code from this project has been used in a university project of mine in which i implemented a remote-access tool with additional features.
 
-#### The server side has been stripped down with the CLI being removed, requiring less interaction.
-
 ## **Client**
 
 Makes a connection to the server and sends keylogger data over the socket connection when a key is pressed.
