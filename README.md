@@ -4,7 +4,7 @@ A simple keylogger application utilising socket connections within python to sen
 
 ## **Client**
 
-Makes a connection to the server and sends keylogger data over the socket connection when a key is pressed.
+Connects to the server and sends keylogger data over the connection when a key is pressed.
 
 **To run the client without building an executeable.**
 
