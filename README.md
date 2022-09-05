@@ -32,7 +32,7 @@ pyinstaller.exe --onefile client.py
 
 The server provides the interface the "attacker" will use to receive keylogging data. Clients will make a connection to this server on the IP and Port specified when the listener is started.
 
-### **_Running the server within Docker_**
+### **_Running the server within a Docker container_**
 
 #### 1. Build the Docker image
 
