@@ -43,6 +43,8 @@ Interface used receive keylogger data - listens for and accepts connections from
 2. Creating and running the Docker container
 
     ```console
-    docker run -d -v "$PWD":/usr/src/app -p <hostPort>:<containerPort> --name <name> keylogger-server:latest
+    docker run -d -v "$PWD":/usr/src/app \ 
+        -p <hostPort>:<containerPort> \
+        --name <name> keylogger-server:latest
     ```
 
