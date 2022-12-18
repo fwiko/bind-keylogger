@@ -1,48 +1,48 @@
 # Bind Keylogger
 
-A simple keylogger application utilising socket connections within python to send keylog data retreived from clients to a centralised server. Code from this project has been used in a university project of mine in which i implemented a remote-access tool with additional features.
+A client-server keylogger utilising socket connections within python to manage simultaneous remote connections. 
 
-## **Client**
+## Client
 
-Connects to the server and sends keylogger data over the connection when a key is pressed.
+Establishes a connection with the server using the specified `IP Address` and `Port` - proceeds to send keystroke data when a key is pressed.
 
-**To run the client without building an executeable.**
+### *Run the Python Client*
 
-#### 1. Install the required packages
+1. Install dependencies
 
-```console
-pip install -r requirements.txt
-```
+    ```console
+    pip install -r requirements.txt
+    ```
 
-#### 2. Start the client
+2. Start the client
 
-```console
-python client.py
-```
+    ```console
+    python client.py
+    ```
 
-**To build a Windows executeable file.**
+### *Build a Windows Executeable*
 
-#### 1. Use pyinstaller to build the client.
+1. Use pyinstaller to build the client.
 
-```console
-pyinstaller.exe --onefile client.py
-```
+    ```console
+    pyinstaller --onefile client.py
+    ```
 
-## **Server**
+## Server
 
-The server provides the interface the "attacker" will use to receive keylogging data. Clients will make a connection to this server on the IP and Port specified when the listener is started.
+Interface used receive keylogger data - listens for and accepts connections from client machines on the specified `IP Address` and `Port`.
 
-### **_Running the server within a Docker container_**
+### *Containerise with Docker*
 
-#### 1. Build the Docker image
+1. Build the Docker image
 
-```console
-docker build -t keylogger-server .
-```
+    ```console
+    docker build -t keylogger-server .
+    ```
 
-#### 2. Creating and running the Docker container
+2. Creating and running the Docker container
 
-```console
-docker run -d -v "$PWD":/usr/src/app -p <hostPort>:<containerPort> --name <name> keylogger-server:latest
-```
+    ```console
+    docker run -d -v "$PWD":/usr/src/app -p <hostPort>:<containerPort> --name <name> keylogger-server:latest
+    ```
 
